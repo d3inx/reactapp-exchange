@@ -20,7 +20,6 @@ const Exchange = () => {
       result : {value : 0 , name : 'eth'}
     })
 
-    console.log(exchangeFromm,exchangeToo);
 
     const inputExchange = (e) => {
       const fromItem = currency.coins.find(item => item.id === exchangeFromm.coinId)

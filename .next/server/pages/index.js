@@ -48,7 +48,6 @@ const CoinsList = (props)=>{
                 );
             }
             sortP === 1 ? setSortP(0) : setSortP(1);
-            console.log(newState);
             return {
                 coins: newState
             };
@@ -61,7 +60,6 @@ const CoinsList = (props)=>{
             ) : prevState.coins.sort((a, b)=>a.name > b.name ? -1 : b.name > a.name ? 1 : 0
             );
             sortP === 1 ? setSortP(0) : setSortP(1);
-            console.log(newState);
             return {
                 coins: newState
             };
@@ -224,7 +222,6 @@ const Exchange = ()=>{
             name: "eth"
         }
     });
-    console.log(exchangeFromm, exchangeToo);
     const inputExchange = (e)=>{
         const fromItem = currency.coins.find((item)=>item.id === exchangeFromm.coinId
         );
@@ -416,7 +413,6 @@ function MyListbox(props) {
     const ExchangeData = (e)=>{
         const coinId = currency.coins.find((item)=>item.name === e
         );
-        console.log(coinId, e);
         let fromItem;
         let toItem;
         let result;

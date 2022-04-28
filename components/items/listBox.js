@@ -12,7 +12,6 @@ export default function MyListbox(props) {
 
     const ExchangeData = e => {
       const coinId = currency.coins.find(item => item.name === e)
-      console.log(coinId , e);
       let fromItem;
       let toItem;
       let result;

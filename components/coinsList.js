@@ -44,7 +44,6 @@ const CoinsList = (props) => {
             ));
       }
       sortP === 1 ? setSortP(0) : setSortP(1);
-      console.log(newState);
 
       return {
         coins: newState,
@@ -63,7 +62,6 @@ const CoinsList = (props) => {
               a.name > b.name ? -1 : b.name > a.name ? 1 : 0
             );
       sortP === 1 ? setSortP(0) : setSortP(1);
-      console.log(newState);
       return {
         coins: newState,
       };
