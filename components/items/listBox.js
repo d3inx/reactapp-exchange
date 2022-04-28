@@ -1,33 +1,62 @@
-import {  useEffect, useLayoutEffect, useState } from 'react'
-import { Listbox, Transition } from '@headlessui/react'
+import { Listbox } from '@headlessui/react'
 import { AppContext } from '../../pages'
-import { useContext } from 'react/cjs/react.development'
-//import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
+import { useContext } from 'react'
 
 
 
 export default function MyListbox(props) {
     const appContext = useContext(AppContext)
     const {currency} = appContext
-    const {setExchangeFrom , setExchangeTo , selectedFrom , setSelectedFrom , selectedTo , setSelectedTo } = props
-    
+    const { exchangeFromm , exchangeToo , setExchangeFromm , setExchangeToo , fromListBox } = props
 
 
     const ExchangeData = e => {
       const coinId = currency.coins.find(item => item.name === e)
       console.log(coinId , e);
-      setExchangeTo === undefined ? setExchangeFrom(coinId.id) : setExchangeTo(coinId.id)
-      selectedFrom !== undefined
-      ? setSelectedFrom(e) 
-      : setSelectedTo(e)
+      let fromItem;
+      let toItem;
+      let result;
+
+      
+      if (fromListBox !== undefined) {
+        fromItem = currency.coins.find(item => item.id === coinId.id)
+        toItem = currency.coins.find(item => item.id === exchangeToo.coinId)
+        result = (fromItem.current_price * exchangeFromm.inputValue) / (toItem.current_price * 1)
+        setExchangeFromm(prevState => ({
+          ...prevState,
+          coinId : coinId.id,
+          selectedCoin : e,
+          coinImage : coinId.image
+        }))
+      }
+      else {
+        fromItem = currency.coins.find(item => item.id === exchangeFromm.coinId)
+        toItem = currency.coins.find(item => item.id === coinId.id)
+        result = (fromItem.current_price * exchangeFromm.inputValue) / (toItem.current_price * 1)
+        setExchangeToo(prevState => ({
+          ...prevState,
+          coinId : coinId.id,
+          selectedCoin : e,
+          coinImage : coinId.image
+        }))
+      }
+      setExchangeFromm(prevState => ({
+        ...prevState,
+        result : {value :  exchangeFromm.inputValue === '' ? 0 : exchangeFromm.inputValue , name : fromItem.symbol }
+      }))
+      setExchangeToo(prevState => ({
+        ...prevState,
+        result : {value :  result , name : toItem.symbol }
+      }))
+
     }
 
   return (
     <div className="w-1/4">
-      <Listbox value={selectedFrom !== undefined ? selectedFrom : selectedTo} onChange={e => ExchangeData(e)}>
+      <Listbox value={fromListBox !== undefined ? exchangeFromm.selectedCoin : exchangeToo.selectedCoin} onChange={e => ExchangeData(e)}>
         <div className="relative mt-1">
           <Listbox.Button className="relative flex w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm">
-            <span className="block truncate">{selectedFrom !== undefined ? selectedFrom : selectedTo}</span>
+            <span className="block truncate">{fromListBox !== undefined ? exchangeFromm.selectedCoin : exchangeToo.selectedCoin}</span>
             <span className='absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none'>
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />

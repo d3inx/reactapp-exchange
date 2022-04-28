@@ -4,57 +4,70 @@ import MyListbox from "./items/listBox";
 
 const Exchange = () => {
     const appContext = useContext(AppContext)
-    const {currency} = appContext 
-    const [exchangeFrom , setExchangeFrom] = useState(1)
-    const [exchangeTo , setExchangeTo] = useState(1027)
-    const [selectedFrom, setSelectedFrom] = useState(currency.coins[0].name)
-    const [selectedTo, setSelectedTo] = useState(currency.coins[1].name)
-    const [From , setFrom] = useState({value : 0 , name : 'Bitcoin'})
-    const [To , setTo] = useState({value : 0 , name : 'Ethereum'})
+    const {currency} = appContext
 
+    const [exchangeFromm , setExchangeFromm] = useState({
+      coinId : "bitcoin",
+      selectedCoin : currency.coins[0].name,
+      coinImage : currency.coins[0].image,
+      inputValue : 0,
+      result : {value : 0 , name : 'btc'}
+    })
+    const [exchangeToo , setExchangeToo] = useState({
+      coinId : "ethereum",
+      selectedCoin : currency.coins[1].name,
+      coinImage : currency.coins[1].image,
+      result : {value : 0 , name : 'eth'}
+    })
+
+    console.log(exchangeFromm,exchangeToo);
 
     const inputExchange = (e) => {
-      const fromItem = currency.coins.find(item => item.id === exchangeFrom)
-      const toItem = currency.coins.find(item => item.id === exchangeTo)
-      let result = (fromItem.quote.USD.price * e.target.value) / (toItem.quote.USD.price * 1)
-
-      setFrom({value :  e.target.value , name : fromItem.symbol })
-      setTo({value :  result , name : toItem.symbol })
-      console.log(fromItem,toItem);
+      const fromItem = currency.coins.find(item => item.id === exchangeFromm.coinId)
+      const toItem = currency.coins.find(item => item.id === exchangeToo.coinId)
+      let result = (fromItem.current_price * e.target.value) / (toItem.current_price * 1)
+      setExchangeFromm(prevState => ({
+        ...prevState,
+        inputValue : e.target.value,
+        result : { value :  e.target.value == '' ? 0 : e.target.value , name : fromItem.symbol }
+      })
+        
+      )
+      setExchangeToo(prevState => ({
+        ...prevState,
+        result : {value :  result , name : toItem.symbol }
+      }))
     }
     const changeHandler = () => {
-      const fromItem = currency.coins.find(item => item.id === exchangeFrom)
-      const toItem = currency.coins.find(item => item.id === exchangeTo)
-      let result = (toItem.quote.USD.price * From.value) / (fromItem.quote.USD.price * 1)
-      setFrom(prevState => {
-        console.log(prevState);
-        return({
-          value : prevState.value,
-          name : To.name
-        })
-      })
-      setTo(prevState => {
-        console.log(result);
-        return({
-          value : result,
-          name : From.name
-        })
-      })
-      setExchangeFrom(exchangeTo);
-      setExchangeTo(exchangeFrom);
-      setSelectedFrom(selectedTo)
-      setSelectedTo(selectedFrom)
+      const fromItem = currency.coins.find(item => item.id === exchangeFromm.coinId)
+      const toItem = currency.coins.find(item => item.id === exchangeToo.coinId)
+      let result = (toItem.current_price * exchangeFromm.result.value) / (fromItem.current_price * 1)
+      setExchangeFromm(prevState => ({
+        ...prevState,
+          inputValue : exchangeFromm.inputValue,
+          coinImage : exchangeToo.coinImage,
+          coinId : exchangeToo.coinId,
+          selectedCoin : exchangeToo.selectedCoin,
+          result : { value :  exchangeFromm.result.value , name : exchangeToo.result.name }
+      }))
+      setExchangeToo(prevState => ({
+        ...prevState,
+          coinImage : exchangeFromm.coinImage,
+          coinId : exchangeFromm.coinId,
+          selectedCoin : exchangeFromm.selectedCoin,
+          result : {value :  result , name : exchangeFromm.result.name }
+      }))
     }
   return (
     <div className="">
-      <div className="">Exchange</div>
+      <div className="text-5xl text-white font-bold mb-8">Exchange</div>
       <div className="exchange-cards flex justify-around items-center">
         <div className="w-1/3 bg-white p-4 rounded-3xl  flex flex-col items-center">
           <div className="flex flex-row w-full items-center justify-between">
-            <MyListbox setExchangeFrom={setExchangeFrom} selectedFrom={selectedFrom} setSelectedFrom={setSelectedFrom}/>
+            <MyListbox exchangeFromm={exchangeFromm} exchangeToo={exchangeToo} setExchangeFromm={setExchangeFromm} setExchangeToo={setExchangeToo} fromListBox={'from'}/>
             <img
               className="w-20 h-20 rounded-full"
-              src={`https://s2.coinmarketcap.com/static/img/coins/64x64/${exchangeFrom}.png`}
+              src={exchangeFromm.coinImage}
               alt=""
             />
           </div>
@@ -65,10 +78,10 @@ const Exchange = () => {
         </svg>
         <div className="w-1/3 bg-white p-4 rounded-3xl  flex flex-col items-center">
           <div className="flex flex-row w-full items-center justify-between">
-          <MyListbox setExchangeTo={setExchangeTo} selectedTo={selectedTo} setSelectedTo={setSelectedTo}/>
+          <MyListbox exchangeFromm={exchangeFromm} exchangeToo={exchangeToo} setExchangeFromm={setExchangeFromm} setExchangeToo={setExchangeToo}/>
             <img
               className="w-20 h-20 rounded-full"
-              src={`https://s2.coinmarketcap.com/static/img/coins/64x64/${exchangeTo}.png`}
+              src={exchangeToo.coinImage}
               alt=""
             />
           </div>
@@ -76,11 +89,11 @@ const Exchange = () => {
       </div>
       <div className="exchange-result flex justify-center">
             <div className=" w-1/2 bg-white rounded-3xl mt-8 p-12 flex justify-center">
-                <div className='font-bold text-2xl self-center'>{From.value !== undefined ? `${From.value} ${From.name}` : '---'}</div>
+                <div className='font-bold text-2xl self-center'>{exchangeFromm.result.value !== undefined ? `${exchangeFromm.result.value} ${exchangeFromm.result.name}` : '---'}</div>
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
-                <div className='font-bold text-2xl self-center'>{To.value !== undefined ? `${To.value} ${To.name}` : '---'}</div>
+                <div className='font-bold text-2xl self-center'>{exchangeToo.result.value !== undefined ? `${exchangeToo.result.value} ${exchangeToo.result.name}` : '---'}</div>
             </div>
       </div>
     </div>
