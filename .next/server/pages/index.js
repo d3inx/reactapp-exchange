@@ -27,11 +27,10 @@ _pages__WEBPACK_IMPORTED_MODULE_3__ = (__webpack_async_dependencies__.then ? (aw
 
 const CoinsList = (props)=>{
     const appContext = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_pages__WEBPACK_IMPORTED_MODULE_3__.AppContext);
-    const { currency , setCurrency   } = appContext;
+    const { currency , setCurrency  } = appContext;
     const { searchTemp , value  } = props;
     const { 0: sortP , 1: setSortP  } = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(1);
     const sort = (sortType)=>{
-        setLoading(true);
         setCurrency((prevState)=>{
             let newState;
             if (sortType === "now") {
@@ -52,7 +51,6 @@ const CoinsList = (props)=>{
                 coins: newState
             };
         });
-        setLoading(false);
     };
     const sortName = async ()=>{
         await setCurrency((prevState)=>{
@@ -525,55 +523,6 @@ __webpack_async_result__();
 
 /***/ }),
 
-/***/ 52:
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(997);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
-
-const Loading = (props)=>{
-    const { loading  } = props;
-    return /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("div", {
-        className: `${loading ? "" : "hidden"} w-[100vw] h-[100vh] fixed top-0 left-0 z-50 flex items-center justify-center bg-indigo-300/50`,
-        children: /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", {
-            type: "button",
-            className: "inline-flex items-center justify-center text-4xl px-4 py-2 w-1/5 h-1/6 font-semibold leading-6 text-sm shadow rounded-md text-white bg-indigo-500 hover:bg-indigo-400 transition ease-in-out duration-150 cursor-not-allowed",
-            disabled: "",
-            children: [
-                /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("svg", {
-                    className: "animate-spin -ml-1 mr-3 h-10 w-10 text-white",
-                    xmlns: "http://www.w3.org/2000/svg",
-                    fill: "none",
-                    viewBox: "0 0 24 24",
-                    children: [
-                        /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("circle", {
-                            className: "opacity-25",
-                            cx: "12",
-                            cy: "12",
-                            r: "10",
-                            stroke: "currentColor",
-                            strokeWidth: "4"
-                        }),
-                        /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("path", {
-                            className: "opacity-75",
-                            fill: "currentColor",
-                            d: "M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                        })
-                    ]
-                }),
-                "Loading..."
-            ]
-        })
-    });
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Loading);
-
-
-/***/ }),
-
 /***/ 369:
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
@@ -594,10 +543,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(167);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _components_coinsList__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(321);
-/* harmony import */ var _components_items_loading__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(52);
 var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_components_exchange__WEBPACK_IMPORTED_MODULE_3__, _components_coinsList__WEBPACK_IMPORTED_MODULE_5__]);
 ([_components_exchange__WEBPACK_IMPORTED_MODULE_3__, _components_coinsList__WEBPACK_IMPORTED_MODULE_5__] = __webpack_async_dependencies__.then ? (await __webpack_async_dependencies__)() : __webpack_async_dependencies__);
-
 
 
 
@@ -621,7 +568,6 @@ function Main({ coinsData  }) {
         0,
         1
     ]);
-    const { 0: loading , 1: setLoading  } = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
     (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(()=>{
         let val = 0;
         setCurrency({
@@ -634,75 +580,68 @@ function Main({ coinsData  }) {
             0,
             val + 1
         ]);
-        setLoading(false);
     }, []);
     const rangeSelector = (event, newValue)=>{
         setValue(newValue);
     };
-    return /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(AppContext.Provider, {
+    return /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(AppContext.Provider, {
         value: {
             currency,
-            setCurrency,
-            setLoading
+            setCurrency
         },
-        children: [
-            /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_components_items_loading__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .Z, {
-                loading: loading
-            }),
-            currency !== null ? /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-                className: "container mx-auto mt-40",
-                children: [
-                    /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_components_exchange__WEBPACK_IMPORTED_MODULE_3__/* ["default"] */ .Z, {}),
-                    /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-                        className: "flex flex-row mt-32",
-                        children: [
-                            /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("input", {
-                                type: "text",
-                                id: "search",
-                                onChange: (e)=>setSearchTemp(e.target.value)
-                                ,
-                                className: "bg-gray-50 border h-12 border-gray-300 w-1/6 mb-4 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500",
-                                placeholder: "search ..."
-                            }),
-                            /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-                                style: {
-                                    margin: "auto",
-                                    display: "block"
-                                },
-                                className: "w-1/4 text-white font-bold",
-                                children: [
-                                    /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-                                        children: [
-                                            "$",
-                                            value[0]
-                                        ]
-                                    }),
-                                    /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((_mui_material_Slider__WEBPACK_IMPORTED_MODULE_2___default()), {
-                                        value: value,
-                                        onChange: rangeSelector,
-                                        valueLabelDisplay: "auto",
-                                        min: 0,
-                                        max: value[1]
-                                    }),
-                                    /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-                                        className: "text-right",
-                                        children: [
-                                            "$",
-                                            value[1],
-                                            " "
-                                        ]
-                                    })
-                                ]
-                            })
-                        ]
-                    }),
-                    /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_components_coinsList__WEBPACK_IMPORTED_MODULE_5__/* ["default"] */ .Z, {
-                        searchTemp: searchTemp,
-                        value: value
-                    })
-                ]
-            }) : ""
-        ]
+        children: currency !== null ? /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+            className: "container mx-auto mt-40",
+            children: [
+                /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_components_exchange__WEBPACK_IMPORTED_MODULE_3__/* ["default"] */ .Z, {}),
+                /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                    className: "flex flex-row mt-32",
+                    children: [
+                        /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("input", {
+                            type: "text",
+                            id: "search",
+                            onChange: (e)=>setSearchTemp(e.target.value)
+                            ,
+                            className: "bg-gray-50 border h-12 border-gray-300 w-1/6 mb-4 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500",
+                            placeholder: "search ..."
+                        }),
+                        /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                            style: {
+                                margin: "auto",
+                                display: "block"
+                            },
+                            className: "w-1/4 text-white font-bold",
+                            children: [
+                                /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                                    children: [
+                                        "$",
+                                        value[0]
+                                    ]
+                                }),
+                                /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((_mui_material_Slider__WEBPACK_IMPORTED_MODULE_2___default()), {
+                                    value: value,
+                                    onChange: rangeSelector,
+                                    valueLabelDisplay: "auto",
+                                    min: 0,
+                                    max: value[1]
+                                }),
+                                /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                                    className: "text-right",
+                                    children: [
+                                        "$",
+                                        value[1],
+                                        " "
+                                    ]
+                                })
+                            ]
+                        })
+                    ]
+                }),
+                /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_components_coinsList__WEBPACK_IMPORTED_MODULE_5__/* ["default"] */ .Z, {
+                    searchTemp: searchTemp,
+                    value: value
+                })
+            ]
+        }) : ""
     });
 };
 

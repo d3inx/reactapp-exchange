@@ -4,7 +4,6 @@ import Slider from "@mui/material/Slider";
 import Exchange from "../components/exchange";
 import axios from "axios";
 import CoinsList from "../components/coinsList";
-import Loading from "../components/items/loading";
 
 export const getServerSideProps = async () => {
   const responsiveLatest = await axios.get(
