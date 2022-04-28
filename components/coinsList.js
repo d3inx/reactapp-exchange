@@ -3,7 +3,7 @@ import { Sparklines, SparklinesLine } from "react-sparklines";
 import { AppContext } from "../pages";
 
 const CoinsList = (props) => {
-  const appContext = useContext(AppContext  );
+  const appContext = useContext(AppContext);
   const { currency, setCurrency } = appContext;
   const { searchTemp, value } = props;
 
@@ -51,7 +51,6 @@ const CoinsList = (props) => {
     });
   };
   const sortName = async () => {
-
     await setCurrency((prevState) => {
       const newState =
         sortP === 1
@@ -78,28 +77,92 @@ const CoinsList = (props) => {
               className="px-6 py-3 cursor-pointer"
               onClick={sortName}
             >
-              name
+              <div className="flex justify-between">
+                <span>name</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M8 9l4-4 4 4m0 6l-4 4-4-4"
+                  />
+                </svg>
+              </div>
             </th>
             <th
               scope="col"
               className="px-6 py-3 cursor-pointer"
               onClick={() => sort("now")}
             >
-              Price
+             <div className="flex justify-between">
+                <span>Price</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M8 9l4-4 4 4m0 6l-4 4-4-4"
+                  />
+                </svg>
+              </div>
             </th>
             <th
               scope="col"
               className="px-6 py-3 cursor-pointer"
               onClick={() => sort("24h")}
             >
-              24h %
+              <div className="flex justify-between">
+                <span>24h %</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M8 9l4-4 4 4m0 6l-4 4-4-4"
+                  />
+                </svg>
+              </div>
             </th>
             <th
               scope="col"
               className="px-6 py-3  cursor-pointer"
               onClick={() => sort("7d")}
             >
-              7d %
+              <div className="flex justify-between">
+                <span>7d %</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M8 9l4-4 4 4m0 6l-4 4-4-4"
+                  />
+                </svg>
+              </div>
             </th>
             <th scope="col" className="px-6 py-3">
               Last 7 days chart

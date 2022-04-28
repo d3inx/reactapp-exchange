@@ -23,6 +23,7 @@ export default function Main({coinsData}) {
   const [currency, setCurrency] = useState(null);
   const [searchTemp, setSearchTemp] = useState("");
   const [value, setValue] = useState([0, 1]);
+  const [maxVal, setMaxVal] = useState(0);
 
   useEffect(() => {
     let val = 0;
@@ -30,6 +31,7 @@ export default function Main({coinsData}) {
     coinsData.map((item) => {
       item.current_price > val ? (val = Math.round(item.current_price)) : null;
     });
+    setMaxVal(val + 1)
     setValue([0, val + 1]);
   }, []);
   const rangeSelector = (event, newValue) => {
@@ -38,14 +40,14 @@ export default function Main({coinsData}) {
   return (
     <AppContext.Provider value={{ currency, setCurrency }}>
       {currency !== null ? (
-        <div className="container mx-auto mt-40">
+        <div className="container mx-auto mt-40 sm:text-sm md:text-base lg:text-lg">
           <Exchange />
-          <div className="flex flex-row mt-32">
+          <div className="flex flex-row items-center mt-32">
             <input
               type="text"
               id="search"
               onChange={(e) => setSearchTemp(e.target.value)}
-              className="bg-gray-50 border h-12 border-gray-300 w-1/6 mb-4 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="bg-gray-50 border h-12 border-gray-300 w-1/3 lg:w-1/6 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="search ..."
             />
             <div
@@ -61,7 +63,7 @@ export default function Main({coinsData}) {
                 onChange={rangeSelector}
                 valueLabelDisplay="auto"
                 min={0}
-                max={value[1]}
+                max={maxVal}
               />
               <div className="text-right">${value[1]} </div>
             </div>

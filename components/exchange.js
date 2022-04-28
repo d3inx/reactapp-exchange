@@ -60,39 +60,39 @@ const Exchange = () => {
   return (
     <div className="">
       <div className="text-5xl text-white font-bold mb-8">Exchange</div>
-      <div className="exchange-cards flex justify-around items-center">
-        <div className="w-1/3 bg-white p-4 rounded-3xl  flex flex-col items-center">
+      <div className="exchange-cards px-4 flex flex-col md:flex-row  justify-around items-center">
+        <div className="w-full md:w-1/3 bg-white p-4 rounded-3xl  flex flex-col items-center">
           <div className="flex flex-row w-full items-center justify-between">
             <MyListbox exchangeFromm={exchangeFromm} exchangeToo={exchangeToo} setExchangeFromm={setExchangeFromm} setExchangeToo={setExchangeToo} fromListBox={'from'}/>
             <img
-              className="w-20 h-20 rounded-full"
+              className="w-12 h-12 lg:w-16 lg:h-16 rounded-full"
               src={exchangeFromm.coinImage}
               alt=""
             />
           </div>
-          <input type="number" className="w-2/3 h-12 font-bold text-2xl outline-none bg-slate-200" onChange={e => inputExchange(e)} />
+          <input type="number" className="w-2/3 h-12 mt-4 font-bold text-2xl outline-none bg-slate-200" onChange={e => inputExchange(e)} />
         </div>
-        <svg xmlns="http://www.w3.org/2000/svg" onClick={changeHandler} className="h-12 w-12 cursor-pointer text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <svg xmlns="http://www.w3.org/2000/svg" onClick={changeHandler} className="rotate-90 my-4 md:rotate-0 h-12 w-12 cursor-pointer text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
         </svg>
-        <div className="w-1/3 bg-white p-4 rounded-3xl  flex flex-col items-center">
+        <div className="w-full md:w-1/3 bg-white p-4 rounded-3xl  flex flex-col items-center">
           <div className="flex flex-row w-full items-center justify-between">
           <MyListbox exchangeFromm={exchangeFromm} exchangeToo={exchangeToo} setExchangeFromm={setExchangeFromm} setExchangeToo={setExchangeToo}/>
             <img
-              className="w-20 h-20 rounded-full"
+              className="w-6 h-6 md:w-12 md:h-12 lg:w-16 lg:h-16 rounded-full"
               src={exchangeToo.coinImage}
               alt=""
             />
           </div>
         </div>
       </div>
-      <div className="exchange-result flex justify-center">
-            <div className=" w-1/2 bg-white rounded-3xl mt-8 p-12 flex justify-center">
-                <div className='font-bold text-2xl self-center'>{exchangeFromm.result.value !== undefined ? `${exchangeFromm.result.value} ${exchangeFromm.result.name}` : '---'}</div>
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <div className="exchange-result flex justify-center tabular-nums break-all">
+            <div className=" w-full md:w-1/2 bg-white rounded-3xl mt-8 p-12 flex flex-col md:flex-row justify-center items-center">
+                <div className='w-full md:w-1/3 font-bold text-2xl self-center text-center'>{exchangeFromm.result.value !== undefined ? `${exchangeFromm.result.value} ${exchangeFromm.result.name}` : '---'}</div>
+                <svg xmlns="http://www.w3.org/2000/svg" className="rotate-90 md:rotate-0 h-12 w-12 m-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
-                <div className='font-bold text-2xl self-center'>{exchangeToo.result.value !== undefined ? `${exchangeToo.result.value} ${exchangeToo.result.name}` : '---'}</div>
+                <div className='w-full md:w-1/3 font-bold text-2xl self-center text-center'>{exchangeToo.result.value !== undefined ? `${Math.round(exchangeToo.result.value * 100) / 100} ${exchangeToo.result.name}` : '---'}</div>
             </div>
       </div>
     </div>

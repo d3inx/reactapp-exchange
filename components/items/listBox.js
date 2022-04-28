@@ -51,7 +51,7 @@ export default function MyListbox(props) {
     }
 
   return (
-    <div className="w-1/4">
+    <div className="w-1/2 lg:w-1/4">
       <Listbox value={fromListBox !== undefined ? exchangeFromm.selectedCoin : exchangeToo.selectedCoin} onChange={e => ExchangeData(e)}>
         <div className="relative mt-1">
           <Listbox.Button className="relative flex w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm">
