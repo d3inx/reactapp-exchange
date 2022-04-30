@@ -1,6 +1,5 @@
 import { createContext } from "react";
 import { useEffect, useState } from "react";
-import Slider from "@mui/material/Slider";
 import Exchange from "../components/exchange";
 import axios from "axios";
 import CoinsList from "../components/coinsList";
@@ -21,7 +20,6 @@ export const AppContext = createContext();
 
 export default function Main({coinsData}) {
   const [currency, setCurrency] = useState(null);
-  const [searchTemp, setSearchTemp] = useState("");
   const [value, setValue] = useState([0, 1]);
   const [maxVal, setMaxVal] = useState(0);
 
@@ -42,33 +40,7 @@ export default function Main({coinsData}) {
       {currency !== null ? (
         <div className="container mx-auto mt-40 sm:text-sm md:text-base lg:text-lg">
           <Exchange />
-          <div className="flex flex-row items-center mt-32">
-            <input
-              type="text"
-              id="search"
-              onChange={(e) => setSearchTemp(e.target.value)}
-              className="bg-gray-50 border h-12 border-gray-300 w-1/3 lg:w-1/6 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="search ..."
-            />
-            <div
-              style={{
-                margin: "auto",
-                display: "block",
-              }}
-              className="w-1/4 text-white font-bold"
-            >
-              <div>${value[0]}</div>
-              <Slider
-                value={value}
-                onChange={rangeSelector}
-                valueLabelDisplay="auto"
-                min={0}
-                max={maxVal}
-              />
-              <div className="text-right">${value[1]} </div>
-            </div>
-          </div>
-          <CoinsList searchTemp={searchTemp} value={value} />
+          <CoinsList value={value} />
         </div>
       ) : (
         ""
