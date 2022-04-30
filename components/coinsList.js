@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { Sparklines, SparklinesLine } from "react-sparklines";
 import { AppContext } from "../pages";
+import Image from "next/image";
 
 const CoinsList = (props) => {
   const appContext = useContext(AppContext);
@@ -100,7 +101,7 @@ const CoinsList = (props) => {
               className="px-6 py-3 cursor-pointer"
               onClick={() => sort("now")}
             >
-             <div className="flex justify-between">
+              <div className="flex justify-between">
                 <span>Price</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -193,10 +194,16 @@ const CoinsList = (props) => {
                   scope="row"
                   className="flex flex-row items-center px-6 py-4 font-medium text-gray-900  whitespace-nowrap"
                 >
-                  <img
-                    className="h-8 w-8 mx-2 rounded-full ring-2 ring-white"
-                    src={item.image}
-                  />
+                  <div className="w-10 h-10 mx-2">
+                    <Image
+                      className="rounded-full"
+                      src={item.image}
+                      layout="responsive"
+                      width={64}
+                      height={64}
+                      alt=""
+                    />
+                  </div>
                   <div className="flex flex-col">
                     <p>{item.name}</p>
                     <span className="text-base text-gray-400">

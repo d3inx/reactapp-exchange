@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { AppContext } from "../pages/index";
 import MyListbox from "./items/listBox";
+import Image from 'next/image'
 
 const Exchange = () => {
     const appContext = useContext(AppContext)
@@ -64,11 +65,16 @@ const Exchange = () => {
         <div className="w-full md:w-1/3 bg-white p-4 rounded-3xl  flex flex-col items-center">
           <div className="flex flex-row w-full items-center justify-between">
             <MyListbox exchangeFromm={exchangeFromm} exchangeToo={exchangeToo} setExchangeFromm={setExchangeFromm} setExchangeToo={setExchangeToo} fromListBox={'from'}/>
-            <img
-              className="w-12 h-12 lg:w-16 lg:h-16 rounded-full"
-              src={exchangeFromm.coinImage}
-              alt=""
-            />
+            <div className="w-12 h-12 lg:w-16 lg:h-16">
+              <Image
+                className=" rounded-full"
+                src={exchangeFromm.coinImage}
+                layout='responsive'
+                width={64}
+                height={64}
+                alt=""
+              />
+            </div>
           </div>
           <input type="number" className="w-2/3 h-12 mt-4 font-bold text-2xl outline-none bg-slate-200" onChange={e => inputExchange(e)} />
         </div>
@@ -78,11 +84,16 @@ const Exchange = () => {
         <div className="w-full md:w-1/3 bg-white p-4 rounded-3xl  flex flex-col items-center">
           <div className="flex flex-row w-full items-center justify-between">
           <MyListbox exchangeFromm={exchangeFromm} exchangeToo={exchangeToo} setExchangeFromm={setExchangeFromm} setExchangeToo={setExchangeToo}/>
-            <img
-              className="w-6 h-6 md:w-12 md:h-12 lg:w-16 lg:h-16 rounded-full"
-              src={exchangeToo.coinImage}
-              alt=""
-            />
+          <div className="w-12 h-12 lg:w-16 lg:h-16">
+              <Image
+                className=" rounded-full"
+                src={exchangeToo.coinImage}
+                layout='responsive'
+                width={64}
+                height={64}
+                alt=""
+              />
+            </div>
           </div>
         </div>
       </div>
