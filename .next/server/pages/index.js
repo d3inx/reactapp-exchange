@@ -31,7 +31,7 @@ _pages__WEBPACK_IMPORTED_MODULE_3__ = (__webpack_async_dependencies__.then ? (aw
 
 
 
-const CoinsList = ({ value  })=>{
+const CoinsList = ({ value , maxVal  })=>{
     const appContext = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_pages__WEBPACK_IMPORTED_MODULE_3__.AppContext);
     const { currency , setCurrency  } = appContext;
     const { 0: sortP , 1: setSortP  } = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(1);
@@ -747,7 +747,8 @@ function Main({ coinsData  }) {
             children: [
                 /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_components_exchange__WEBPACK_IMPORTED_MODULE_2__/* ["default"] */ .Z, {}),
                 /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_components_coinsList__WEBPACK_IMPORTED_MODULE_4__/* ["default"] */ .Z, {
-                    value: value
+                    value: value,
+                    maxVal: maxVal
                 })
             ]
         }) : ""

@@ -4,7 +4,7 @@ import { AppContext } from "../pages";
 import Image from "next/image";
 import Slider from "@mui/material/Slider";
 
-const CoinsList = ({value}) => {
+const CoinsList = ({value , maxVal}) => {
   const appContext = useContext(AppContext);
   const { currency, setCurrency } = appContext;
 

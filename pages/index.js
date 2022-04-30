@@ -37,7 +37,7 @@ export default function Main({coinsData}) {
       {currency !== null ? (
         <div className="container mx-auto mt-40 sm:text-sm md:text-base lg:text-lg">
           <Exchange />
-          <CoinsList value={value} />
+          <CoinsList value={value} maxVal={maxVal} />
         </div>
       ) : (
         ""
