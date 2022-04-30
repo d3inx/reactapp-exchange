@@ -69,6 +69,9 @@ const CoinsList = ({ value  })=>{
             };
         });
     };
+    const rangeSelector = (event, newValue)=>{
+        setValue(newValue);
+    };
     return /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
         children: [
             /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
@@ -734,9 +737,6 @@ function Main({ coinsData  }) {
             val + 1
         ]);
     }, []);
-    const rangeSelector = (event, newValue)=>{
-        setValue(newValue);
-    };
     return /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(AppContext.Provider, {
         value: {
             currency,

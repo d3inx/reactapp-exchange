@@ -68,6 +68,9 @@ const CoinsList = ({value}) => {
       };
     });
   };
+  const rangeSelector = (event, newValue) => {
+    setValue(newValue);
+  };
 
   return (
     <>

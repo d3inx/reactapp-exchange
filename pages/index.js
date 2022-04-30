@@ -32,9 +32,6 @@ export default function Main({coinsData}) {
     setMaxVal(val + 1)
     setValue([0, val + 1]);
   }, []);
-  const rangeSelector = (event, newValue) => {
-    setValue(newValue);
-  };
   return (
     <AppContext.Provider value={{ currency, setCurrency }}>
       {currency !== null ? (
