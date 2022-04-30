@@ -21,8 +21,8 @@ __webpack_require__.a(module, async (__webpack_handle_async_dependencies__, __we
 /* harmony import */ var _pages__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(369);
 /* harmony import */ var next_image__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(675);
 /* harmony import */ var next_image__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(next_image__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _mui_material_Slider__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(682);
-/* harmony import */ var _mui_material_Slider__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_mui_material_Slider__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var nouislider_react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(989);
+/* harmony import */ var nouislider_react__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(nouislider_react__WEBPACK_IMPORTED_MODULE_5__);
 var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_pages__WEBPACK_IMPORTED_MODULE_3__]);
 _pages__WEBPACK_IMPORTED_MODULE_3__ = (__webpack_async_dependencies__.then ? (await __webpack_async_dependencies__)() : __webpack_async_dependencies__)[0];
 
@@ -31,13 +31,19 @@ _pages__WEBPACK_IMPORTED_MODULE_3__ = (__webpack_async_dependencies__.then ? (aw
 
 
 
-const CoinsList = ({ value , maxVal  })=>{
+
+const CoinsList = ({ value , maxVal , setValue  })=>{
     const appContext = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_pages__WEBPACK_IMPORTED_MODULE_3__.AppContext);
     const { currency , setCurrency  } = appContext;
     const { 0: sortP , 1: setSortP  } = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(1);
     const { 0: searchTemp , 1: setSearchTemp  } = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)("");
+    const { 0: searchedCoins , 1: setSearchedCoins  } = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
+        coins: currency.coins.filter((item)=>item.name.toLowerCase().startsWith("")
+        )
+    });
+    console.log(searchedCoins);
     const sort = (sortType)=>{
-        setCurrency((prevState)=>{
+        setSearchedCoins((prevState)=>{
             let newState;
             if (sortType === "now") {
                 sortP === 1 ? newState = prevState.coins.sort((a, b)=>b.current_price - a.current_price
@@ -59,9 +65,9 @@ const CoinsList = ({ value , maxVal  })=>{
         });
     };
     const sortName = async ()=>{
-        await setCurrency((prevState)=>{
-            const newState = sortP === 1 ? prevState.coins.sort((a, b)=>a.name > b.name ? 1 : b.name > a.name ? -1 : 0
-            ) : prevState.coins.sort((a, b)=>a.name > b.name ? -1 : b.name > a.name ? 1 : 0
+        await setSearchedCoins((prevState)=>{
+            const newState = sortP === 1 ? prevState.coins.sort((a, b)=>a.name.toLowerCase() > b.name.toLowerCase() ? 1 : b.name.toLowerCase() > a.name.toLowerCase() ? -1 : 0
+            ) : prevState.coins.sort((a, b)=>a.name.toLowerCase() > b.name.toLowerCase() ? -1 : b.name.toLowerCase() > a.name.toLowerCase() ? 1 : 0
             );
             sortP === 1 ? setSortP(0) : setSortP(1);
             return {
@@ -69,8 +75,25 @@ const CoinsList = ({ value , maxVal  })=>{
             };
         });
     };
-    const rangeSelector = (event, newValue)=>{
-        setValue(newValue);
+    const filterCoin1 = (e)=>{
+        setSearchTemp(e);
+        const filterCoin = currency.coins.filter((item)=>item.name.toLowerCase().startsWith(e) && item.current_price > value[0] && item.current_price < value[1]
+        );
+        setSearchedCoins({
+            coins: filterCoin
+        });
+    };
+    const rangeSelector = (e)=>{
+        setValue([
+            Number(e[0]),
+            Number(e[1])
+        ]);
+        console.log(searchedCoins);
+        const filterCoin = currency.coins.filter((item)=>item.name.toLowerCase().startsWith(searchTemp) && item.current_price > e[0] && item.current_price < e[1]
+        );
+        setSearchedCoins({
+            coins: filterCoin
+        });
     };
     return /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
         children: [
@@ -80,7 +103,7 @@ const CoinsList = ({ value , maxVal  })=>{
                     /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("input", {
                         type: "text",
                         id: "search",
-                        onChange: (e)=>setSearchTemp(e.target.value)
+                        onChange: (e)=>filterCoin1(e.target.value)
                         ,
                         className: "bg-gray-50 border h-12 border-gray-300 w-1/3 lg:w-1/6 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500",
                         placeholder: "search ..."
@@ -98,12 +121,15 @@ const CoinsList = ({ value , maxVal  })=>{
                                     value[0]
                                 ]
                             }),
-                            /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((_mui_material_Slider__WEBPACK_IMPORTED_MODULE_5___default()), {
-                                value: value,
-                                onChange: rangeSelector,
-                                valueLabelDisplay: "auto",
-                                min: 0,
-                                max: maxVal
+                            /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((nouislider_react__WEBPACK_IMPORTED_MODULE_5___default()), {
+                                range: {
+                                    min: 0,
+                                    max: maxVal
+                                },
+                                start: value,
+                                onChange: (e)=>rangeSelector(e)
+                                ,
+                                connect: true
                             }),
                             /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
                                 className: "text-right",
@@ -243,13 +269,7 @@ const CoinsList = ({ value , maxVal  })=>{
                         }),
                         /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("tbody", {
                             className: "text-lg font-bold tabular-nums",
-                            children: currency.coins.filter((item)=>{
-                                if (searchTemp === "") {
-                                    return value[0] < item.current_price && item.current_price < value[1];
-                                } else if (item.name.toLowerCase().includes(searchTemp.toLowerCase())) {
-                                    return value[0] < item.current_price && item.current_price < value[1];
-                                }
-                            }).map((item, itemIdx)=>/*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                            children: searchedCoins.coins.map((item, itemIdx)=>/*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
                                     className: "border-b odd:bg-white even:bg-gray-50 ",
                                     children: [
                                         /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("th", {
@@ -698,9 +718,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_exchange__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(623);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(167);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _components_coinsList__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(321);
-var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_components_exchange__WEBPACK_IMPORTED_MODULE_2__, _components_coinsList__WEBPACK_IMPORTED_MODULE_4__]);
-([_components_exchange__WEBPACK_IMPORTED_MODULE_2__, _components_coinsList__WEBPACK_IMPORTED_MODULE_4__] = __webpack_async_dependencies__.then ? (await __webpack_async_dependencies__)() : __webpack_async_dependencies__);
+/* harmony import */ var _components_coinsList_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(321);
+var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_components_exchange__WEBPACK_IMPORTED_MODULE_2__, _components_coinsList_js__WEBPACK_IMPORTED_MODULE_4__]);
+([_components_exchange__WEBPACK_IMPORTED_MODULE_2__, _components_coinsList_js__WEBPACK_IMPORTED_MODULE_4__] = __webpack_async_dependencies__.then ? (await __webpack_async_dependencies__)() : __webpack_async_dependencies__);
 
 
 
@@ -746,7 +766,8 @@ function Main({ coinsData  }) {
             className: "container mx-auto mt-40 sm:text-sm md:text-base lg:text-lg",
             children: [
                 /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_components_exchange__WEBPACK_IMPORTED_MODULE_2__/* ["default"] */ .Z, {}),
-                /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_components_coinsList__WEBPACK_IMPORTED_MODULE_4__/* ["default"] */ .Z, {
+                /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_components_coinsList_js__WEBPACK_IMPORTED_MODULE_4__/* ["default"] */ .Z, {
+                    setValue: setValue,
                     value: value,
                     maxVal: maxVal
                 })
@@ -757,13 +778,6 @@ function Main({ coinsData  }) {
 
 __webpack_async_result__();
 } catch(e) { __webpack_async_result__(e); } });
-
-/***/ }),
-
-/***/ 682:
-/***/ ((module) => {
-
-module.exports = require("@mui/material/Slider");
 
 /***/ }),
 
@@ -799,6 +813,13 @@ module.exports = require("next/dist/shared/lib/image-config.js");
 /***/ ((module) => {
 
 module.exports = require("next/dist/shared/lib/utils.js");
+
+/***/ }),
+
+/***/ 989:
+/***/ ((module) => {
+
+module.exports = require("nouislider-react");
 
 /***/ }),
 

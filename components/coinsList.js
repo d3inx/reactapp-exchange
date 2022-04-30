@@ -1,18 +1,22 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useRef } from "react";
 import { Sparklines, SparklinesLine } from "react-sparklines";
 import { AppContext } from "../pages";
 import Image from "next/image";
-import Slider from "@mui/material/Slider";
+import Nouislider from "nouislider-react";
+import "nouislider/distribute/nouislider.css";
 
-const CoinsList = ({value , maxVal}) => {
+const CoinsList = ({ value, maxVal, setValue }) => {
   const appContext = useContext(AppContext);
   const { currency, setCurrency } = appContext;
 
   const [sortP, setSortP] = useState(1);
-  const [searchTemp, setSearchTemp] = useState("");
-
+  const [searchTemp , setSearchTemp] = useState('') 
+  const [searchedCoins, setSearchedCoins] = useState({
+    coins : currency.coins.filter((item) => item.name.toLowerCase().startsWith(""))}
+    );
+  console.log(searchedCoins);
   const sort = (sortType) => {
-    setCurrency((prevState) => {
+    setSearchedCoins((prevState) => {
       let newState;
       if (sortType === "now") {
         sortP === 1
@@ -53,14 +57,14 @@ const CoinsList = ({value , maxVal}) => {
     });
   };
   const sortName = async () => {
-    await setCurrency((prevState) => {
+    await setSearchedCoins((prevState) => {
       const newState =
         sortP === 1
           ? prevState.coins.sort((a, b) =>
-              a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+              a.name.toLowerCase() > b.name.toLowerCase() ? 1 : b.name.toLowerCase() > a.name.toLowerCase() ? -1 : 0
             )
           : prevState.coins.sort((a, b) =>
-              a.name > b.name ? -1 : b.name > a.name ? 1 : 0
+              a.name.toLowerCase() > b.name.toLowerCase() ? -1 : b.name.toLowerCase() > a.name.toLowerCase() ? 1 : 0
             );
       sortP === 1 ? setSortP(0) : setSortP(1);
       return {
@@ -68,17 +72,32 @@ const CoinsList = ({value , maxVal}) => {
       };
     });
   };
-  const rangeSelector = (event, newValue) => {
-    setValue(newValue);
+  const filterCoin = (e) => {
+    setSearchTemp(e)
+    const filterCoin = currency.coins.filter((item) =>
+    item.name.toLowerCase().startsWith(e) && item.current_price > value[0] && item.current_price < value[1]
+    );
+    setSearchedCoins({
+      coins : filterCoin
+    });
   };
-
+  const rangeSelector = (e) => {
+    setValue([Number(e[0]) , Number(e[1])])
+    console.log(searchedCoins);
+    const filterCoin = currency.coins.filter((item) =>
+    item.name.toLowerCase().startsWith(searchTemp) && item.current_price > e[0] && item.current_price < e[1]
+    );
+    setSearchedCoins({
+      coins : filterCoin
+    });
+  };
   return (
     <>
       <div className="flex flex-row items-center mt-32">
         <input
           type="text"
           id="search"
-          onChange={(e) => setSearchTemp(e.target.value)}
+          onChange={(e) => filterCoin(e.target.value)}
           className="bg-gray-50 border h-12 border-gray-300 w-1/3 lg:w-1/6 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="search ..."
         />
@@ -90,13 +109,7 @@ const CoinsList = ({value , maxVal}) => {
           className="w-1/4 text-white font-bold"
         >
           <div>${value[0]}</div>
-          <Slider
-            value={value}
-            onChange={rangeSelector}
-            valueLabelDisplay="auto"
-            min={0}
-            max={maxVal}
-          />
+          <Nouislider range={{ min: 0, max: maxVal }} start={value} onChange={e => rangeSelector(e)} connect />
           <div className="text-right">${value[1]} </div>
         </div>
       </div>
@@ -202,90 +215,73 @@ const CoinsList = ({value , maxVal}) => {
             </tr>
           </thead>
           <tbody className="text-lg font-bold tabular-nums">
-            {currency.coins
-              .filter((item) => {
-                if (searchTemp === "") {
-                  return (
-                    value[0] < item.current_price &&
-                    item.current_price < value[1]
-                  );
-                } else if (
-                  item.name.toLowerCase().includes(searchTemp.toLowerCase())
-                ) {
-                  return (
-                    value[0] < item.current_price &&
-                    item.current_price < value[1]
-                  );
-                }
-              })
-              .map((item, itemIdx) => (
-                <tr
-                  className="border-b odd:bg-white even:bg-gray-50 "
-                  key={itemIdx}
+            {searchedCoins.coins.map((item, itemIdx) => (
+              <tr
+                className="border-b odd:bg-white even:bg-gray-50 "
+                key={itemIdx}
+              >
+                <th
+                  scope="row"
+                  className="flex flex-row items-center px-6 py-4 font-medium text-gray-900  whitespace-nowrap"
                 >
-                  <th
-                    scope="row"
-                    className="flex flex-row items-center px-6 py-4 font-medium text-gray-900  whitespace-nowrap"
-                  >
-                    <div className="w-10 h-10 mx-2">
-                      <Image
-                        className="rounded-full"
-                        src={item.image}
-                        layout="responsive"
-                        width={64}
-                        height={64}
-                        alt=""
-                      />
-                    </div>
-                    <div className="flex flex-col">
-                      <p>{item.name}</p>
-                      <span className="text-base text-gray-400">
-                        {item.symbol}
-                      </span>
-                    </div>
-                  </th>
+                  <div className="w-10 h-10 mx-2">
+                    <Image
+                      className="rounded-full"
+                      src={item.image}
+                      layout="responsive"
+                      width={64}
+                      height={64}
+                      alt=""
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <p>{item.name}</p>
+                    <span className="text-base text-gray-400">
+                      {item.symbol}
+                    </span>
+                  </div>
+                </th>
 
-                  <td className="px-6 py-4">
-                    $ {Math.round(item.current_price * 100) / 100}
-                  </td>
-                  <td
-                    className={`px-6 py-4 ${
-                      Math.round(item.price_change_percentage_24h * 100) / 100 <
-                      0
-                        ? `text-red-600`
-                        : "text-green-600"
-                    }`}
-                  >
-                    {Math.round(item.price_change_percentage_24h * 100) / 100}
-                  </td>
-                  <td
-                    className={`px-6 py-4 ${
-                      Math.round(
-                        item.price_change_percentage_7d_in_currency * 100
-                      ) /
-                        100 <
-                      0
-                        ? `text-red-600`
-                        : "text-green-600"
-                    }`}
-                  >
-                    {Math.round(
+                <td className="px-6 py-4">
+                  $ {Math.round(item.current_price * 100) / 100}
+                </td>
+                <td
+                  className={`px-6 py-4 ${
+                    Math.round(item.price_change_percentage_24h * 100) / 100 < 0
+                      ? `text-red-600`
+                      : "text-green-600"
+                  }`}
+                >
+                  {Math.round(item.price_change_percentage_24h * 100) / 100}
+                </td>
+                <td
+                  className={`px-6 py-4 ${
+                    Math.round(
                       item.price_change_percentage_7d_in_currency * 100
-                    ) / 100}
-                  </td>
-                  <td className="px-6 py-4">
-                    <Sparklines data={item.sparkline_in_7d.price}>
-                      <SparklinesLine
-                        color={
-                          item.price_change_percentage_7d_in_currency < 0
-                            ? "red"
-                            : "green"
-                        }
-                      />
-                    </Sparklines>
-                  </td>
-                </tr>
-              ))}
+                    ) /
+                      100 <
+                    0
+                      ? `text-red-600`
+                      : "text-green-600"
+                  }`}
+                >
+                  {Math.round(
+                    item.price_change_percentage_7d_in_currency * 100
+                  ) / 100}
+                </td>
+                <td className="px-6 py-4">
+                  <Sparklines data={item.sparkline_in_7d.price}>
+                    <SparklinesLine
+                      color={
+                        item.price_change_percentage_7d_in_currency < 0
+                          ? "red"
+                          : "green"
+                      }
+                    />
+                  </Sparklines>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
